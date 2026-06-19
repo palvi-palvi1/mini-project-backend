@@ -1,5 +1,5 @@
-let authors = [];
-let nextId = 1;
+import authors from "../models/User.js";
+let nextId = authors.length + 1;
 
 export const addAuthor = (req, res) => {
     const newAuthor = { id: nextId++, ...req.body };

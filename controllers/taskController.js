@@ -1,18 +1,18 @@
-let tasks = [];
-let nextId = 1;
+import { tasks } from "../models/Task.js";
+let nextId = tasks.length + 1;
 
-exports.createTask = (req, res) => {
+export const createTask = (req, res) => {
     const newTask = { id: nextId++, ...req.body, status: 'Pending'};
     tasks.push(newTask);
     res.status(201).json(newTask);
 };
 
 
-exports.getAllTasks = (req, res) => {
+export const getAllTasks = (req, res) => {
     res.status(200).json(tasks);
 };
 
-exports.updateTasks = (req, res) => {
+export const updateTasks = (req, res) => {
     const id = parseInt(req.params.id);
     const task = tasks.find((t) => t.id === id);
     if (!task) {
@@ -24,7 +24,7 @@ exports.updateTasks = (req, res) => {
 };
 
 
-exports.deleteTask = (req, res) => {
+export const deleteTask = (req, res) => {
     const id = parseInt(req.params.id);
     const index = tasks.findIndex((t) => t.id === id);
 
