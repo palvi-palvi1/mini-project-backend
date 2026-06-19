@@ -1,14 +1,11 @@
-const express = require('express');
+import express from "express";
+import authorRoutes from "./routes/authorRoutes.js";
+import taskRoutes from "./routes/taskRoutes";
+
 const app = express();
+app.use(express.json());
 
-app.get('/', (req, res) => {
-    res.json({
-        message: 'This is backend',
-        timestamp: new Date().toISOString()
-    });
-});
+app.use('/task', taskRoutes);
+app.use('/author', authorRoutes);
 
-const PORT = 3000;
-app.listen(PORT, () => {
-    console.log(`Server is running at http://localhost:${PORT}`);
-});
+export default app;
