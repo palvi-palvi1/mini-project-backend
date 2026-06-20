@@ -1,47 +1,55 @@
-import authors from "../models/User.js";
-let nextId = authors.length + 1;
+import User from "../models/userModel.js";
 
-export const addAuthor = (req, res) => {
-    const newAuthor = { id: nextId++, ...req.body };
-    authors.push(newAuthor);
-    res.status(201).json(newAuthor);
-};
-
-
-export const getAllAuthors = (req, res) => {
-    res.status(200).json(authors);
-};
-
-export const getAuthorById = (req, res) => {
-    const id = parseInt(req.params.id);
-    const author = authors.find((a) => a.id === id);
-    if (!author) {
-        return res.status(404).json({message: 'No author with this id'});
+export const addUser = async (req, res, next) => {
+    try {
+        const newUser = await User.create(req.body);
+        res.status(201).json(newUser);
+    } catch (err) {
+        next(err);
     }
-
-    res.status(200).json(author);
 };
 
-
-export const updateAuthor = (req, res) => {
-    const id = parseInt(req.params.id);
-    const author = authors.find((a) => a.id === id);
-
-    if (!author) {
-        return res.status(404).json({message: 'No author with this id'});
+export const getAllUsers = async (req, res, next) => {
+    try {
+        const users = await User.find({});
+        res.status(200).json(users);
+    } catch (err) {
+        next(err);
     }
-    Object.assign(author, req.body);
-    res.status(200).json(author);
 };
 
-export const deleteAuthor = (req, res) => {
-    const id = parseInt(req.params.id);
-    const index = authors.findIndex((a) => a.id === id);
-
-    if (index === -1) {
-        return res.status(404).json({message: 'No author with this id'});
+export const getUserById = async (req, res, next) => {
+    try {
+        const user = await User.findById(req.params.id);
+        if (!user) {
+            return res.status(404).json({ message: 'No user with this id' });
+        }
+        res.status(200).json(user);
+    } catch (err) {
+        next(err);
     }
+};
 
-    authors.splice(index, 1);
-    res.status(200).json({message: 'Author deleted successfully'});
+export const updateUser = async (req, res, next) => {
+    try {
+        const updated = await User.findByIdAndUpdate(req.params.id, req.body, { new: true });
+        if (!updated) {
+            return res.status(404).json({ message: 'No user with this id' });
+        }
+        res.status(200).json(updated);
+    } catch (err) {
+        next(err);
+    }
+};
+
+export const deleteUser = async (req, res, next) => {
+    try {
+        const deleted = await User.findByIdAndDelete(req.params.id);
+        if (!deleted) {
+            return res.status(404).json({ message: 'No user with this id' });
+        }
+        res.status(200).json({ message: 'User deleted successfully' });
+    } catch (err) {
+        next(err);
+    }
 };

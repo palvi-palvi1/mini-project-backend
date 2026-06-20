@@ -1,37 +1,31 @@
-import { tasks } from "../models/Task.js";
-let nextId = tasks.length + 1;
+import Task from "../models/taskModel.js";
 
-export const createTask = (req, res) => {
-    const newTask = { id: nextId++, ...req.body, status: 'Pending'};
-    tasks.push(newTask);
+export const createTask = async (req, res, next) => {
+  try {
+    const newTask = new Task(req.body);
+    await newTask.save();
     res.status(201).json(newTask);
+  } catch (err) { next(err); }
 };
 
-
-export const getAllTasks = (req, res) => {
+export const getAllTasks = async (req, res, next) => {
+  try {
+    const tasks = await Task.find({});
     res.status(200).json(tasks);
+  } catch (err) { next(err); }
 };
 
-export const updateTasks = (req, res) => {
-    const id = parseInt(req.params.id);
-    const task = tasks.find((t) => t.id === id);
-    if (!task) {
-        return res.status(404).json({message: 'No task with this id'});
-    }
-
-    Object.assign(task, req.body);
-    res.status(200).json(task);
+export const updateTask = async (req, res, next) => {
+  try {
+    const updated = await Task.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    res.status(200).json(updated);
+  } catch (err) { next(err); }
 };
 
-
-export const deleteTask = (req, res) => {
-    const id = parseInt(req.params.id);
-    const index = tasks.findIndex((t) => t.id === id);
-
-    if (index === -1) {
-        return res.status(404).json({message: 'No task with this id'});
-    }
-
-    tasks.splice(index, 1);
-    res.status(200).json({message: 'Task deleted successfully'});
+export const deleteTask = async (req, res, next) => {
+  try {
+    const deleted = await Task.findByIdAndDelete(req.params.id);
+    if (!deleted) return res.status(404).json({message:  "Task not found"})
+    res.status(200).json({ message: "Task deleted successfully" });
+  } catch (err) { next(err); }
 };

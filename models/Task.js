@@ -3,7 +3,7 @@ export const tasks = [
     {
         id: 1,
         title: "Exam",
-        description: "Part 2 Exam Presentation and written exam",
+        description: "Part 2 Exam -> Presentation and written exam",
         priority: "High",
         dueDate: "2026-06-26"
     },

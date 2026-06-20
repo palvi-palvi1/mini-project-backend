@@ -1,13 +1,12 @@
 import express from 'express';
 
-import { addAuthor, getAllAuthors, getAuthorById, updateAuthor, deleteAuthor } from "../controllers/authorController.js";
-const router = express.Router();
+import { addUser, getAllUsers, getUserById, updateUser, deleteUser } from "../controllers/authorController.js";const router = express.Router();
 
 
-router.post('/', addAuthor);
-router.get('/', getAllAuthors);
-router.get('/:id', getAuthorById);
-router.put('/:id', updateAuthor);
-router.delete('/:id', deleteAuthor);
+router.post('/', addUser);
+router.get('/', getAllUsers);
+router.get('/:id', getUserById);
+router.put('/:id', updateUser);
+router.delete('/:id', deleteUser);
 
 export default router;
