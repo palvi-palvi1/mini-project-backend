@@ -19,8 +19,11 @@ export const getAllUsers = async (req, res, next) => {
 };
 
 export const getUserById = async (req, res, next) => {
+    console.log(req)
+    const mail = req?.body?.email
+    console.log(mail)
     try {
-        const user = await User.findById(req.params.id);
+        const user = await User.findOne({email: mail})
         if (!user) {
             return res.status(404).json({ message: 'No user with this id' });
         }
