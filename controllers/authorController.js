@@ -19,9 +19,9 @@ export const getAllUsers = async (req, res, next) => {
 };
 
 export const getUserById = async (req, res, next) => {
+    console.log("getUserById called!")
     const { email, password } = req.body;
-    console.log("Received:", email, password )
-    console.log("Body:", req.body)
+    console.log("Received:", email, password)
     try {
         const user = await User.findOne({email: email})
         if (!user) {
