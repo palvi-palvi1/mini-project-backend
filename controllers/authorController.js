@@ -19,17 +19,15 @@ export const getAllUsers = async (req, res, next) => {
 };
 
 export const getUserById = async (req, res, next) => {
-    console.log("getUserById called!")
     const { email, password } = req.body;
-    console.log("Received:", email, password)
     try {
         const user = await User.findOne({email: email})
         if (!user) {
-            return res.status(404).json({ message: 'Invalid email or password' });
+            return res.status(404).json({ message: 'Invalid email' });
         }
 
         if (user.password !== password) {
-            return res.status(401).json({ message: 'Invalid email or password'});
+            return res.status(401).json({ message: 'Invalid password'});
         }
         res.status(200).json(user);
     } catch (err) {
