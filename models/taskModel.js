@@ -5,7 +5,6 @@ const taskSchema = new mongoose.Schema({
     description: {type: String, required: true},
     dueDate: {type: Date, required: true},
     priority: {type: String, enum: ['Low', 'Medium', 'High']},
-
 });
 const Task = model('Task', taskSchema);
 

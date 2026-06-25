@@ -10,4 +10,4 @@ app.use(cors())
 app.use('/task', taskRoutes);
 app.use('/author', authorRoutes);
 
-export default app;
+export default app

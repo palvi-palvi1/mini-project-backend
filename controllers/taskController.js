@@ -29,3 +29,11 @@ export const deleteTask = async (req, res, next) => {
     res.status(200).json({ message: "Task deleted successfully" });
   } catch (err) { next(err); }
 };
+
+
+export const getTaskByUser = async (req, res, next) => {
+  try {
+    const task = await Task.find({userId: req.params.userId});
+    res.status(200).json(task);
+  } catch (err) { next(err); }
+  };
